@@ -1,5 +1,3 @@
-
-    public enum Action {
-        ATTACK, DEFENSE, FLEX
-    }    
-
+public enum Action {
+    ATTACK, DEFENSE, FLEX
+}

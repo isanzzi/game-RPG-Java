@@ -1,5 +1,4 @@
-import static Action.*;
-
+// Player.java
 
 public class Player extends Character {
     private int level;
@@ -8,7 +7,7 @@ public class Player extends Character {
     private Magic magic;
     private Action action;
 
-    public  Player(String name, int health, int attackPower) {
+    public Player(String name, int health, int attackPower) {
         super(name, health, attackPower);
         this.level = 1;
         this.experience = 0;
@@ -18,7 +17,7 @@ public class Player extends Character {
 
     public Magic getMagic() {
         return magic;
-    }    
+    }
 
     public void equipWeapon(Weapon weapon) {
         this.weapon = weapon;
@@ -51,26 +50,37 @@ public class Player extends Character {
     }
 
     public void takeAction(Action action, Player opponent) {
-        if (action == Action.ATTACK && opponent.getAction() == Action.DEFENSE) {
+        this.action = action;
+        
+        if (action == Action.ATTACK && opponent.getAction() == Action.ATTACK) {
+            System.out.println("Kedua pemain menyerang! Keduanya terkena damage.");
+            this.takeDamage(10);
+            opponent.takeDamage(10);
+        } else if (action == Action.ATTACK && opponent.getAction() == Action.DEFENSE) {
             System.out.println(name + " menyerang, tapi " + opponent.getName() + " bertahan! Tidak ada damage.");
+        } else if (action == Action.DEFENSE && opponent.getAction() == Action.ATTACK) {
+            System.out.println(opponent.getName() + " menyerang, tapi " + name + " bertahan! Tidak ada damage.");
         } else if (action == Action.ATTACK && opponent.getAction() == Action.FLEX) {
             System.out.println(name + " menyerang! " + opponent.getName() + " terkena damage.");
-            opponent.takeDamage(10);  // Misal damage 10
-        } else if (action == Action.DEFENSE && opponent.getAction() == Action.FLEX) {
-            System.out.println(opponent.getName() + " melakukan flex! " + name + " terkena damage.");
+            opponent.takeDamage(10);
+        } else if (action == Action.FLEX && opponent.getAction() == Action.ATTACK) {
+            System.out.println(opponent.getName() + " menyerang! " + name + " terkena damage.");
             this.takeDamage(10);
+        } else if (action == Action.DEFENSE && opponent.getAction() == Action.DEFENSE) {
+            System.out.println("Keduanya bertahan. Tidak ada yang terjadi.");
+        } else if (action == Action.FLEX && opponent.getAction() == Action.FLEX) {
+            System.out.println("Keduanya melakukan flex! Keduanya terkena damage.");
+            this.takeDamage(10);
+            opponent.takeDamage(10);
         } else {
             System.out.println("Tidak ada yang terjadi.");
         }
-        this.action = action; // Simpan aksi pemain
     }
 
     public void takeDamage(int damage) {
         this.health -= damage;
         System.out.println(name + " sekarang memiliki HP: " + health);
     }
-
-
 
     public void gainExperience(int exp) {
         experience += exp;
