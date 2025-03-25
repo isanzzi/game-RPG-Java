@@ -35,6 +35,17 @@ public class Player extends Character {
         this.action = action;
     }
 
+    public int getAttackPower() {
+        int totalPower = attackPower;
+        if (weapon != null) {
+            totalPower += weapon.getBonusDamage();
+        }
+        if (magic != null) {
+            totalPower += magic.getMagicPower();
+        }
+        return totalPower;
+    }
+
     public void attack(Character enemy) {
         int damage = attackPower;
         if (weapon != null) {
@@ -51,30 +62,6 @@ public class Player extends Character {
 
     public void takeAction(Action action, Player opponent) {
         this.action = action;
-        
-        if (action == Action.ATTACK && opponent.getAction() == Action.ATTACK) {
-            System.out.println("Kedua pemain menyerang! Keduanya terkena damage.");
-            this.takeDamage(10);
-            opponent.takeDamage(10);
-        } else if (action == Action.ATTACK && opponent.getAction() == Action.DEFENSE) {
-            System.out.println(name + " menyerang, tapi " + opponent.getName() + " bertahan! Tidak ada damage.");
-        } else if (action == Action.DEFENSE && opponent.getAction() == Action.ATTACK) {
-            System.out.println(opponent.getName() + " menyerang, tapi " + name + " bertahan! Tidak ada damage.");
-        } else if (action == Action.ATTACK && opponent.getAction() == Action.FLEX) {
-            System.out.println(name + " menyerang! " + opponent.getName() + " terkena damage.");
-            opponent.takeDamage(10);
-        } else if (action == Action.FLEX && opponent.getAction() == Action.ATTACK) {
-            System.out.println(opponent.getName() + " menyerang! " + name + " terkena damage.");
-            this.takeDamage(10);
-        } else if (action == Action.DEFENSE && opponent.getAction() == Action.DEFENSE) {
-            System.out.println("Keduanya bertahan. Tidak ada yang terjadi.");
-        } else if (action == Action.FLEX && opponent.getAction() == Action.FLEX) {
-            System.out.println("Keduanya melakukan flex! Keduanya terkena damage.");
-            this.takeDamage(10);
-            opponent.takeDamage(10);
-        } else {
-            System.out.println("Tidak ada yang terjadi.");
-        }
     }
 
     public void takeDamage(int damage) {
